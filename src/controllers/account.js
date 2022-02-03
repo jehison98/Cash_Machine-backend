@@ -9,7 +9,9 @@ const getCards = async (req, res = response) => {
 
   try {
     const allCards = await getUserCards(userId);
-    res.status(200).json(allCards);
+    res
+      .status(200)
+      .json({ ok: true, msg: "Solicitud recibida con exito", allCards });
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -66,7 +68,8 @@ const withDraw = async (req, res = response) => {
     await Card.update({ mount: roundedMount }, { where: { id: card.id } });
     res.status(200).json({
       ok: true,
-      msg: `Tu retiro de $${withDrawMount} fue exitoso. Tu saldo actual es de ${roundedMount}`,
+      msg: `Tu retiro de $${withDrawMount} fue exitoso. Tu saldo actual es de $${roundedMount}`,
+      cardBalance: roundedMount,
     });
   } catch (error) {
     console.log(error);
@@ -89,11 +92,18 @@ const increaseSavings = async (req, res = response) => {
   try {
     const card = await getUserCard(userId, "debit");
     const cardMount = parseFloat(card.mount);
+    if (cardMount + increaseMount > 99999999) {
+      return res.status(400).json({
+        ok: false,
+        msg: "Solo puedes tener un maximo de $99999999 en tu cuenta de ahorro",
+      });
+    }
     const newMount = Math.round((cardMount + increaseMount) * 100) / 100;
     await Card.update({ mount: newMount }, { where: { id: card.id } });
     res.status(200).json({
       ok: true,
       msg: `Deposito exitoso. Tu saldo actual es de ${newMount}`,
+      debitBalance: newMount,
     });
   } catch (error) {
     console.log(error);
@@ -144,7 +154,9 @@ const payCard = async (req, res = response) => {
     await Card.update({ mount: roundCredit }, { where: { id: creditCard.id } });
     res.status(200).json({
       ok: true,
-      msg: `Deposito exitoso. Tu credito disponible es de ${roundCredit}. Tu saldo en tu cuenta de debito es de ${roundDebit}`,
+      msg: `Deposito exitoso. Tu credito disponible es de $${roundCredit}. Tu saldo en tu cuenta de debito es de $${roundDebit}`,
+      creditBalance: roundCredit,
+      debitBalance: roundDebit,
     });
   } catch (error) {
     console.log(error);

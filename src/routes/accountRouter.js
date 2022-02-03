@@ -24,12 +24,12 @@ router.get(
   getCards
 );
 router.put(
-  "/withDraw",
+  "/withdraw",
   //Controller
   withDraw
 );
 router.put(
-  "/saving",
+  "/save",
   //Controller
   increaseSavings
 );
