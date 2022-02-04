@@ -28,4 +28,10 @@ app.use(express.json());
 //Routes
 app.use("/api", routes);
 
+//If not found a route redirect to index.html
+app.use("*", (req, res) => {
+  // Invalid request
+  res.sendFile(path.resolve(__dirname, "public", "index.html"));
+});
+
 module.exports = app;

@@ -41,8 +41,8 @@ const withDraw = async (req, res = response) => {
           newMount = cardMount - withDrawMount;
         } else {
           return res.status(400).json({
-            ok: true,
-            msg: `Saldo insuficiente. Tu saldo actual es de ${cardMount}`,
+            ok: false,
+            msg: `Saldo insuficiente. Tu saldo actual es de $${cardMount}`,
           });
         }
         break;
@@ -51,7 +51,7 @@ const withDraw = async (req, res = response) => {
           newMount = cardMount - withDrawMount * 1.05;
         } else {
           return res.status(400).json({
-            ok: true,
+            ok: false,
             msg: `Saldo insuficiente. Tu saldo actual es de ${cardMount}. Recuerda que en retiros de credito se cobra un 5% de comision`,
           });
         }
