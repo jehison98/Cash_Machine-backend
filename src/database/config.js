@@ -15,8 +15,8 @@ const sequelize = new Sequelize(
 ); */
 
 //Heroku PostgresSQL
-const { DB_URI } = process.env;
-const sequelize = new Sequelize(DB_URI, {
+const { DATABASE_URL } = process.env;
+const sequelize = new Sequelize(DATABASE_URL, {
   dialectOptions: {
     ssl: {
       require: true,
