@@ -36,4 +36,4 @@ When the npm install finished in your terminal in the repository route exceute t
 
 ### `npm start`
 
-Finally go to your favorite browser and go to http://localhost:5000/ and you can see the app
+Finally go to your favorite browser and go to localhost:5000 and you can see the app
